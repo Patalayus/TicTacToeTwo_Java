@@ -43,24 +43,40 @@ class Gameboard{
             Scanner keyboard = new Scanner(System.in);
             int row, col;
             do {
-                System.out.print("Please enter a row(1-3): ");
+                System.out.printf("Player %s Please enter a row(1-3): ", player);
                 row = keyboard.nextInt();
 
-                System.out.print("Please enter a column (1-3): ");
+                System.out.printf("Player %s Please enter a column (1-3): ", player);
                 col = keyboard.nextInt();
             }while (notValid(row,col));
-            MakeMove(player,row,col);
+            MakeMove(player,row-1,col-1);
         } //above method will ask the user for a row and column to select their position
 
 
     public boolean notValid(int row, int col){
-            if(row>3||row<1)
+            if(row > 3 || row < 1 || col > 3 || col < 1 || !isEmpty(row, col))
                 return true;
-            if(col>3||col<1)
-                return true;
+            else
+                return false;
+    }
+    public boolean isEmpty(int row, int col){
+        if(gameBoard[row-1][col-1]==' '){
+            return true;
+        }else{
+            System.out.print("That position is taken. \n");
             return false;
+        }
+
     }
 
+    public boolean checkwin(){
+        //loop each row and check for winner
+        for(int row=0; row < gameBoard.length; row++){
+            if(gameBoard[row][0] == gameBoard[row][1]&&gameBoard[row][1]==gameBoard[row][2]){
+
+            }
+        }
+    }
 
         public boolean MakeMove(char player, int row, int col){
             if(row>=0 && row <=2 && col>=0 && col <= 2){
@@ -79,15 +95,20 @@ class Gameboard{
         int counter = 1;
 
         while(thisGameBoard.gameActive()){
-         if(counter % 2 == 0){
+         if(counter % 2 == 0)
             thisGameBoard.askPlayer('O');
-         }else
+         else
              thisGameBoard.askPlayer('X');
+         counter++;
+            System.out.println("\n");
+            thisGameBoard.displayBoard();
+            thisGameBoard.checkwin();
         }
 
         //thisGameBoard.MakeMove('O',0,0);
         //thisGameBoard.MakeMove('X',1,1);
-        System.out.println("\n");
-        thisGameBoard.displayBoard();
+
+
+
     }
 }
