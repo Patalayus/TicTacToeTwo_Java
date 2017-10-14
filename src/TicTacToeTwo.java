@@ -147,7 +147,9 @@ class Gameboard{
             //else return this boolean as true.
     }
     public static void main(String args[]){
+
         Gameboard thisGameBoard = new Gameboard();
+        thisGameBoard.displayBoard();
         //makes a new object called thisGameBoard which will be used to jump to different methods.
         int counter = 1;
         //makes variable called counter equal to one.
@@ -158,6 +160,7 @@ class Gameboard{
             thisGameBoard.askPlayer('O');
             //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
          else
+
              thisGameBoard.askPlayer('X');
             //otherwise this will execute when it is player X's turn.
          counter++;
