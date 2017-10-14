@@ -41,14 +41,26 @@ class Gameboard{
 
         public void askPlayer(char player){
             Scanner keyboard = new Scanner(System.in);
+            int row, col;
             do {
                 System.out.print("Please enter a row(1-3): ");
+                row = keyboard.nextInt();
+
+                System.out.print("Please enter a column (1-3): ");
+                col = keyboard.nextInt();
+            }while (notValid(row,col));
+            MakeMove(player,row,col);
+        } //above method will ask the user for a row and column to select their position
 
 
-            }while (notValid(userInput)){
+    public boolean notValid(int row, int col){
+            if(row>3||row<1)
+                return true;
+            if(col>3||col<1)
+                return true;
+            return false;
+    }
 
-            }
-        }
 
         public boolean MakeMove(char player, int row, int col){
             if(row>=0 && row <=2 && col>=0 && col <= 2){
@@ -73,9 +85,9 @@ class Gameboard{
              thisGameBoard.askPlayer('X');
         }
 
-        thisGameBoard.MakeMove('O',0,0);
-        thisGameBoard.MakeMove('X',1,1);
-
+        //thisGameBoard.MakeMove('O',0,0);
+        //thisGameBoard.MakeMove('X',1,1);
+        System.out.println("\n");
         thisGameBoard.displayBoard();
     }
 }
