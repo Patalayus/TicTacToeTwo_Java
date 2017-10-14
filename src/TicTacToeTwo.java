@@ -18,7 +18,6 @@ class Gameboard{
             gameBoard = new char[3][3];
             //makes the gameBoard a three by three square.
 
-
             for (int row=0; row < gameBoard.length; row++){
                 Arrays.fill(gameBoard[row], ' ');
             }
@@ -147,20 +146,28 @@ class Gameboard{
             //else return this boolean as true.
     }
     public static void main(String args[]){
-
+        double AI_check;
+        Scanner AI_Scanner = new Scanner(System.in);
+        System.out.println("Do you wish to play against a bot?\n1. Yes\n2. No");
+        String AI_Answer = AI_Scanner.nextLine();
+        if(AI_Answer == "1"){
+            AI_check = 1;
+        }else{
+            AI_check = 0;
+        }
         Gameboard thisGameBoard = new Gameboard();
         thisGameBoard.displayBoard();
         //makes a new object called thisGameBoard which will be used to jump to different methods.
+        //then the board is displayed at the start of the game.
         int counter = 1;
         //makes variable called counter equal to one.
 
         while(thisGameBoard.gameActive() && counter < 10){
             //while the game is active and the game hasn't had 10 turns execute the next piece section.
-         if(counter % 2 == 0)
+         if((counter % 2 == 0)||(AI_check == 1))
             thisGameBoard.askPlayer('O');
             //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
          else
-
              thisGameBoard.askPlayer('X');
             //otherwise this will execute when it is player X's turn.
          counter++;
