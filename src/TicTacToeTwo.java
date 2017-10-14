@@ -10,6 +10,8 @@ import java.util.Scanner;
 class Gameboard{
     private char[][] gameBoard;
     private boolean gameOnGoing = true;
+    double enps_win1 = 0;
+
     //declares variables gameBoard and gameOnGoing.
 
         public Gameboard(){
@@ -83,6 +85,7 @@ class Gameboard{
             //object 'row' equals 0, and will increment 1 each time until it is equal to the boards length.
 
             if (gameBoard[row][0] == gameBoard[row][1] && gameBoard[row][1] == gameBoard[row][2] && gameBoard[row][0] != ' '){
+                enps_win1+=1;
                 System.out.print("The winner is "+gameBoard[row][0]);
                 gameOnGoing = false;
                 /* if a value in a row is equal to another and this value is also equal to a third, and does not equal a space, will return
@@ -94,6 +97,7 @@ class Gameboard{
             //object 'col' equals 0, and will increment 1 each time until it is equal to the boards length.
 
             if (gameBoard[0][col] == gameBoard[1][col] && gameBoard[1][col] == gameBoard[2][col] && gameBoard[0][col] != ' '){
+                enps_win1 +=1;
                 System.out.print("The winner is "+gameBoard[0][col]);
                 gameOnGoing = false;}
                 /* if a value in a column is equal to another and this value is also equal to a third, and does not equal a space, will return
@@ -102,12 +106,14 @@ class Gameboard{
         }
         //checking diagonals
         if(gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2] && gameBoard[0][0] != ' '){
+            enps_win1+=1;
             System.out.print("This winner is "+gameBoard[0][0]);
             gameOnGoing = false;
             // as well as checking the columns and rows of the board, the diagonals need to be checked as well.
             //this will check the top left to bottom right.
         }
         if(gameBoard[2][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[0][2] && gameBoard[0][2] != ' '){
+            enps_win1+=1;
             System.out.print("This winner is "+gameBoard[1][1]);
             gameOnGoing = false;
             //this will check the top right to the bottom left.
@@ -132,6 +138,14 @@ class Gameboard{
             else return false;
         }// this method above executes when the player makes a move.
 
+    public boolean scored(){
+            if(enps_win1 == 0){
+             return false;
+             //if object enps_win1 equals 0 then return false.
+            }
+            else{return true;}
+            //else return this boolean as true.
+    }
     public static void main(String args[]){
         Gameboard thisGameBoard = new Gameboard();
         //makes a new object called thisGameBoard which will be used to jump to different methods.
@@ -154,7 +168,7 @@ class Gameboard{
             thisGameBoard.checkwin();
             //the above line will be used to jump to the checkwin method in the code.
 
-            if(counter == 10){
+            if((counter == 10)&&(thisGameBoard.scored())){
                 System.out.print("It's a draw\n");
                 //this will execute if the game goes on for 10 turns, at this point the board is full and therefore
                 // it is a draw.
