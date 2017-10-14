@@ -69,13 +69,31 @@ class Gameboard{
 
     }
 
-    public boolean checkwin(){
+    public boolean checkwin() {
         //loop each row and check for winner
-        for(int row=0; row < gameBoard.length; row++){
-            if(gameBoard[row][0] == gameBoard[row][1]&&gameBoard[row][1]==gameBoard[row][2]){
-
+        for (int row = 0; row < gameBoard.length; row++){
+            if (gameBoard[row][0] == gameBoard[row][1] && gameBoard[row][1] == gameBoard[row][2] && gameBoard[row][0] != ' '){
+                System.out.print("The winner is"+gameBoard[row][0]);
+                gameOnGoing = false;
             }
         }
+        for(int col=0;col<gameBoard[0].length;col++){
+            if (gameBoard[0][col] == gameBoard[1][col] && gameBoard[1][col] == gameBoard[2][col] && gameBoard[0][col] != ' '){
+                System.out.print("The winner is"+gameBoard[0][col]);
+                gameOnGoing = false;}
+        }
+        //checking diagonals
+        if(gameBoard[0][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[2][2] && gameBoard[0][0] != ' '){
+            System.out.print("This winner is "+gameBoard[0][0]);
+            gameOnGoing = false;
+        }
+        if(gameBoard[2][0] == gameBoard[1][1] && gameBoard[1][1] == gameBoard[0][2] && gameBoard[0][2] != ' '){
+            System.out.print("This winner is "+gameBoard[1][1]);
+            gameOnGoing = false;
+        }
+
+        return false;
+
     }
 
         public boolean MakeMove(char player, int row, int col){
