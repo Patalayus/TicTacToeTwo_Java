@@ -12,7 +12,9 @@ import java.io.IOException;
 
 class Gameboard{
     private char[][] gameBoard;
+
     private boolean gameOnGoing = true;
+
     private double enps_win1 = 0;
 
     //declares variables gameBoard and gameOnGoing.
