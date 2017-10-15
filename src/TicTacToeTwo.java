@@ -2,6 +2,8 @@
 
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Random;
+import java.io.IOException;
 
 /** By Luke Charles - 14/10/2017
  *  Java TicTacToe 2
@@ -10,7 +12,7 @@ import java.util.Scanner;
 class Gameboard{
     private char[][] gameBoard;
     private boolean gameOnGoing = true;
-    double enps_win1 = 0;
+    private double enps_win1 = 0;
 
     //declares variables gameBoard and gameOnGoing.
 
@@ -49,7 +51,7 @@ class Gameboard{
             Scanner keyboard = new Scanner(System.in);
             int row, col;
             do {
-                System.out.printf("Player %s Please enter a row(1-3): ", player);
+                System.out.printf("Player %s Please enter a row (1-3): ", player);
                 row = keyboard.nextInt();
 
                 System.out.printf("Player %s Please enter a column (1-3): ", player);
@@ -120,7 +122,6 @@ class Gameboard{
 
         return false;
         //otherwise there is not winner of the game.
-
     }
         public boolean MakeMove(char player, int row, int col){
             if(row>=0 && row <=2 && col>=0 && col <= 2){
@@ -152,8 +153,11 @@ class Gameboard{
         String AI_Answer = AI_Scanner.nextLine();
         if(AI_Answer == "1"){
             AI_check = 1;
+            //this will check if the user of the program wants to play against a bot
+            // 1 = yes
         }else{
             AI_check = 0;
+            // 2 = no
         }
         Gameboard thisGameBoard = new Gameboard();
         thisGameBoard.displayBoard();
@@ -171,6 +175,7 @@ class Gameboard{
              thisGameBoard.askPlayer('X');
             //otherwise this will execute when it is player X's turn.
          counter++;
+
             System.out.println("\n");
             //this will be used as a line break in the code.
             thisGameBoard.displayBoard();
@@ -185,4 +190,5 @@ class Gameboard{
             }
         }
     }
+
 }
