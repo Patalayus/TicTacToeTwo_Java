@@ -54,15 +54,15 @@ class Gameboard{
 
         public void askPlayer(char player){
             Scanner keyboard = new Scanner(System.in);
-            int row, col;
+            int row_, col_;
             do {
                 System.out.printf("Player %s Please enter a row (1-3): ", player);
-                row = keyboard.nextInt();
+                row_ = keyboard.nextInt();
 
                 System.out.printf("Player %s Please enter a column (1-3): ", player);
-                col = keyboard.nextInt();
-            }while (notValid(row,col));
-            MakeMove(player,row-1,col-1);
+                col_ = keyboard.nextInt();
+            }while (notValid(row_,col_));
+            MakeMove(player,row_-1,col_-1);
         } //above method will ask the user for a row and column to select their position.
 
     public boolean notValid(int row, int col){
@@ -217,7 +217,6 @@ class Gameboard{
             //System.out.printf("Player %s Please enter a column (1-3): ", Bot);
             col = VarRand.nextInt(3)+1;
             //3 is the maximum and the 1 is the minimum
-
         }while (notValid(row,col));
 
         //if(!BotEmpty /*BotEmpty is false*/){
@@ -226,6 +225,7 @@ class Gameboard{
         MakeMove(Bot,row-1,col-1);
 
         jump_from_AI.askPlayer('O');
+        jump_from_AI.displayBoard();
 
         System.out.println("\n");
         //this will be used as a line break in the code.
