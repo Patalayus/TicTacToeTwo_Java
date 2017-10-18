@@ -184,7 +184,7 @@ class Gameboard{
          else if(AI_check == 1)
              thisGameBoard.AI_run('X');
             //this will jump to the AI code for the AI to select a position.
-         else
+         else if(AI_check == 0)
             thisGameBoard.askPlayer('X');
             //otherwise this will execute when it is player X's turn.
          counter++;
@@ -206,22 +206,30 @@ class Gameboard{
     public void AI_run(char Bot){
         Scanner keyboard = new Scanner(System.in);
         Gameboard jump_from_AI = new Gameboard();
+        Random VarRand = new Random();
         int row, col;
         int counterposition = 0;
         do {
             //System.out.printf("Player %s Please enter a row (1-3): ", Bot);
-            row = 2;
+            row = VarRand.nextInt(3)+1;
+            //3 is the maximum and the 1 is the minimum
 
             //System.out.printf("Player %s Please enter a column (1-3): ", Bot);
-            col = 2;
+            col = VarRand.nextInt(3)+1;
+            //3 is the maximum and the 1 is the minimum
 
         }while (notValid(row,col));
-        row++;
-        col++;
+
         //if(!BotEmpty /*BotEmpty is false*/){
-            //col++;
+        //col++;
         //}
         MakeMove(Bot,row-1,col-1);
+
         jump_from_AI.askPlayer('O');
+
+        System.out.println("\n");
+        //this will be used as a line break in the code.
+        jump_from_AI.checkwin();
+        //the above line will be used to jump to the checkwin method in the code.
     }
 }
