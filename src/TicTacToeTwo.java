@@ -17,6 +17,9 @@ class Gameboard{
     private boolean BotGame = false;
     private boolean BotEmpty = true;
 
+
+
+
     private double enps_win1 = 0;
     //test commit
     //declares variables gameBoard and gameOnGoing.
@@ -154,6 +157,7 @@ class Gameboard{
             //else return this boolean as true.
     }
     public static void main(String args[]){
+        Gameboard thisGameBoard = new Gameboard();
         double AI_check = 0;
         Scanner AI_Scanner = new Scanner(System.in);
         System.out.println("Do you wish to play against a bot?\n1. Yes\n2. No");
@@ -169,7 +173,7 @@ class Gameboard{
         }else{
             System.out.println("Please enter a valid input");
         }
-        Gameboard thisGameBoard = new Gameboard();
+        //Gameboard thisGameBoard = new Gameboard();
         thisGameBoard.displayBoard();
         //makes a new object called thisGameBoard which will be used to jump to different methods.
         //then the board is displayed at the start of the game.
@@ -182,7 +186,7 @@ class Gameboard{
             thisGameBoard.askPlayer('O');
             //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
          else if(AI_check == 1)
-             thisGameBoard.AI_run('X');
+             thisGameBoard.AI_run('X', thisGameBoard);
             //this will jump to the AI code for the AI to select a position.
          else if(AI_check == 0)
             thisGameBoard.askPlayer('X');
@@ -194,7 +198,7 @@ class Gameboard{
             thisGameBoard.displayBoard();
             //the above line will be used to jump to the displayBoard method in the code.
             thisGameBoard.checkwin();
-            //the above line will be used to jump to the checkwin method in the code.
+            //the above line will be used to jump to the checking method in the code.
 
             if((counter == 10)&&(thisGameBoard.scored())){
                 System.out.print("It's a draw\n");
@@ -203,33 +207,28 @@ class Gameboard{
             }
         }
     }
-    public void AI_run(char Bot){
+    public void AI_run(char Bot, Gameboard currentGameBoard){
         Scanner keyboard = new Scanner(System.in);
         Gameboard jump_from_AI = new Gameboard();
         Random VarRand = new Random();
         int row, col;
         int counterposition = 0;
         do {
-            //System.out.printf("Player %s Please enter a row (1-3): ", Bot);
             row = VarRand.nextInt(3)+1;
             //3 is the maximum and the 1 is the minimum
 
-            //System.out.printf("Player %s Please enter a column (1-3): ", Bot);
             col = VarRand.nextInt(3)+1;
             //3 is the maximum and the 1 is the minimum
         }while (notValid(row,col));
 
-        //if(!BotEmpty /*BotEmpty is false*/){
-        //col++;
-        //}
         MakeMove(Bot,row-1,col-1);
 
-        jump_from_AI.askPlayer('O');
-        jump_from_AI.displayBoard();
+        currentGameBoard.askPlayer('O');
 
         System.out.println("\n");
         //this will be used as a line break in the code.
-        jump_from_AI.checkwin();
+        currentGameBoard.checkwin();
         //the above line will be used to jump to the checkwin method in the code.
+        //currentGameBoard.displayBoard();
     }
 }
