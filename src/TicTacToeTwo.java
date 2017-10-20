@@ -17,14 +17,19 @@ class Gameboard{
     private boolean BotGame = false;
     private boolean BotEmpty = true;
 
+    public String player1name;
+    public String player2name;
 
 
+
+    private double keeptrack;
 
     private double enps_win1 = 0;
     //test commit
     //declares variables gameBoard and gameOnGoing.
 
         public Gameboard(){
+
             gameBoard = new char[3][3];
             //makes the gameBoard a three by three square.
 
@@ -57,12 +62,14 @@ class Gameboard{
 
         public void askPlayer(char player){
             Scanner keyboard = new Scanner(System.in);
+            Gameboard jump = new Gameboard();
+
             int row_, col_;
             do {
-                System.out.printf("Player %s Please enter a row (1-3): ", player);
+                System.out.printf("Player %s, "+player1name+" Please enter a row (1-3): ", player);
                 row_ = keyboard.nextInt();
 
-                System.out.printf("Player %s Please enter a column (1-3): ", player);
+                System.out.printf("Player %s, "+player2name+" Please enter a column (1-3): ", player);
                 col_ = keyboard.nextInt();
             }while (notValid(row_,col_));
             MakeMove(player,row_-1,col_-1);
@@ -168,6 +175,14 @@ class Gameboard{
             // 1 = yes
             System.out.println("You will be playing against a pre-written script");
         }else if(AI_Answer.equals("2")){
+            System.out.println("Please enter your name, player 1 (O)? ");
+            String localname1 = AI_Scanner.nextLine();
+            thisGameBoard.readyplayerone(localname1);
+
+            System.out.println("Please enter your name, player 2 (X)? ");
+            String localname2 = AI_Scanner.nextLine();
+            thisGameBoard.readyplayertwo(localname2);
+
             AI_check = 0;
             // 0 = no
         }else{
@@ -182,10 +197,11 @@ class Gameboard{
 
         while(thisGameBoard.gameActive() && counter < 10){
             //while the game is active and the game hasn't had 10 turns execute the next piece section.
-         if((counter % 2 == 0)&&(AI_check == 0))
-            thisGameBoard.askPlayer('O');
-            //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
-         else if(AI_check == 1)
+         if((counter % 2 == 0)&&(AI_check == 0)) {
+             thisGameBoard.keeptrackinitial(counter);
+             thisGameBoard.askPlayer('O');
+             //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
+         }else if(AI_check == 1)
              thisGameBoard.AI_run('X', thisGameBoard);
             //this will jump to the AI code for the AI to select a position.
          else if(AI_check == 0)
@@ -229,5 +245,15 @@ class Gameboard{
         //this will be used as a line break in the code.
         currentGameBoard.checkwin();
         //the above line will be used to jump to the checkwin method in the code.
+    }
+
+    public void keeptrackinitial(double tokeep){
+        keeptrack = tokeep;
+    }
+    public void readyplayerone(String name1){
+        player1name = name1;
+    }
+    public void readyplayertwo(String name2){
+        player2name = name2;
     }
 }
