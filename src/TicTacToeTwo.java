@@ -212,7 +212,6 @@ class Gameboard{
         Gameboard jump_from_AI = new Gameboard();
         Random VarRand = new Random();
         int row, col;
-        int counterposition = 0;
         do {
             row = VarRand.nextInt(3)+1;
             //3 is the maximum and the 1 is the minimum
@@ -222,13 +221,13 @@ class Gameboard{
         }while (notValid(row,col));
 
         MakeMove(Bot,row-1,col-1);
-
+        //currentGameBoard.displayBoard();
+        currentGameBoard.checkwin();
         currentGameBoard.askPlayer('O');
 
         System.out.println("\n");
         //this will be used as a line break in the code.
         currentGameBoard.checkwin();
         //the above line will be used to jump to the checkwin method in the code.
-        //currentGameBoard.displayBoard();
     }
 }
