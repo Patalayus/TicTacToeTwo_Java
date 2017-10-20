@@ -19,6 +19,8 @@ class Gameboard{
 
     public String player1name;
     public String player2name;
+    public String playername;
+    public int askplayercounter = 0;
 
 
 
@@ -63,13 +65,19 @@ class Gameboard{
         public void askPlayer(char player){
             Scanner keyboard = new Scanner(System.in);
             Gameboard jump = new Gameboard();
+            askplayercounter++;
+            if(askplayercounter%2==0){
+                playername = player1name;
+            }else{
+                playername = player2name;
+            }
 
             int row_, col_;
             do {
-                System.out.printf("Player %s, "+player1name+" Please enter a row (1-3): ", player);
+                System.out.printf("Player %s, "+playername+" Please enter a row (1-3): ", player);
                 row_ = keyboard.nextInt();
 
-                System.out.printf("Player %s, "+player2name+" Please enter a column (1-3): ", player);
+                System.out.printf("Player %s, "+playername+" Please enter a column (1-3): ", player);
                 col_ = keyboard.nextInt();
             }while (notValid(row_,col_));
             MakeMove(player,row_-1,col_-1);
