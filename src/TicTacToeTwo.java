@@ -57,7 +57,7 @@ class Gameboard{
             System.out.println();
         }
 
-        public boolean gameActive(){
+        public boolean ongoing(){
             return gameOnGoing;
         }
         //the above method is used to check if the game is still active at the conclusion of every turn.
@@ -203,7 +203,7 @@ class Gameboard{
         int counter = 1;
         //makes variable called counter equal to one.
 
-        while(thisGameBoard.gameActive() && counter < 10){
+        while(thisGameBoard.ongoing() && counter < 10){
             //while the game is active and the game hasn't had 10 turns execute the next piece section.
          if((counter % 2 == 0)&&(AI_check == 0)) {
              thisGameBoard.keeptrackinitial(counter);
