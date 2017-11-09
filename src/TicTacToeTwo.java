@@ -272,8 +272,10 @@ class Gameboard{
     }
     public void instructions(){
         Scanner input = new Scanner(System.in);
-        System.out.println("TicTacToe is a very simple game");
 
+        System.out.println("TicTacToe is a very simple game");
+        System.out.println("Simply pick whether you are playing a\nnought or a cross, then choose your position on the map.\nThe first person to get three in a row either\nthrough columns, rows or diagonally");
+        String responce_00 = input.nextLine();
     }
     public void keeptrackinitial(double tokeep){
         keeptrack = tokeep;
