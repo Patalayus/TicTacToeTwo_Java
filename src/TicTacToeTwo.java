@@ -175,6 +175,7 @@ class Gameboard{
         Gameboard thisGameBoard = new Gameboard();
         double AI_check = 0;
         Scanner AI_Scanner = new Scanner(System.in);
+        System.out.println("Please choose an option:\n1. Play\n2. Instructions\n3. Quit");
         System.out.println("Do you wish to play against a bot?\n1. Yes\n2. No");
         String AI_Answer = AI_Scanner.nextLine();
         if(AI_Answer.equals("1")){
