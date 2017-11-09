@@ -174,8 +174,23 @@ class Gameboard{
     public static void main(String args[]){
         Gameboard thisGameBoard = new Gameboard();
         double AI_check = 0;
+        double play_check = 0;
         Scanner AI_Scanner = new Scanner(System.in);
-        System.out.println("Please choose an option:\n1. Play\n2. Instructions\n3. Quit");
+        Scanner option = new Scanner(System.in);
+        while(play_check == 0) {
+            System.out.println("Please choose an option:\n1. Play\n2. Instructions\n3. Quit");
+            String option1 = option.nextLine();
+            if (option1.equals("1")) {
+                System.out.println("You have chosen to play...");
+                play_check += 1;
+            } else if (option1.equals("2")) {
+                thisGameBoard.instructions();
+            } else if (option1.equals("3")) {
+                System.exit(1);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        }
         System.out.println("Do you wish to play against a bot?\n1. Yes\n2. No");
         String AI_Answer = AI_Scanner.nextLine();
         if(AI_Answer.equals("1")){
@@ -255,7 +270,11 @@ class Gameboard{
         currentGameBoard.checkwin();
         //the above line will be used to jump to the checkwin method in the code.
     }
+    public void instructions(){
+        Scanner input = new Scanner(System.in);
+        System.out.println("TicTacToe is a very simple game");
 
+    }
     public void keeptrackinitial(double tokeep){
         keeptrack = tokeep;
     }
