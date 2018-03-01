@@ -12,12 +12,26 @@ import java.io.IOException;
 
 class Gameboard{
     private char[][] gameBoard;
+
     private boolean gameOnGoing = true;
+    private boolean BotGame = false;
+    private boolean BotEmpty = true;
+
+    public String player1name;
+    public String player2name;
+    public String playername;
+    public int askplayercounter = 0;
+
+
+
+    private double keeptrack;
+
     private double enps_win1 = 0;
     //test commit
     //declares variables gameBoard and gameOnGoing.
 
         public Gameboard(){
+
             gameBoard = new char[3][3];
             //makes the gameBoard a three by three square.
 
@@ -43,22 +57,30 @@ class Gameboard{
             System.out.println();
         }
 
-        public boolean gameActive(){
+        public boolean ongoing(){
             return gameOnGoing;
         }
         //the above method is used to check if the game is still active at the conclusion of every turn.
 
         public void askPlayer(char player){
             Scanner keyboard = new Scanner(System.in);
-            int row, col;
-            do {
-                System.out.printf("Player %s Please enter a row (1-3): ", player);
-                row = keyboard.nextInt();
+            Gameboard jump = new Gameboard();
+            askplayercounter++;
+            if(askplayercounter%2==0){
+                playername = player1name;
+            }else{
+                playername = player2name;
+            }
 
-                System.out.printf("Player %s Please enter a column (1-3): ", player);
-                col = keyboard.nextInt();
-            }while (notValid(row,col));
-            MakeMove(player,row-1,col-1);
+            int row_, col_;
+            do {
+                System.out.printf("Player %s, "+playername+" Please enter a row (1-3): ", player);
+                row_ = keyboard.nextInt();
+
+                System.out.printf("Player %s, "+playername+" Please enter a column (1-3): ", player);
+                col_ = keyboard.nextInt();
+            }while (notValid(row_,col_));
+            MakeMove(player,row_-1,col_-1);
         } //above method will ask the user for a row and column to select their position.
 
     public boolean notValid(int row, int col){
@@ -72,10 +94,12 @@ class Gameboard{
 
     public boolean isEmpty(int row, int col){
         if(gameBoard[row-1][col-1]==' '){
+            BotEmpty = true;
             return true;
             //this returns true if the place is empty.
         }else{
             System.out.print("That position is taken. \n");
+            BotEmpty = false;
             return false;
             //this returns false if the user has entered a position which is already filled from the previous player.
         }
@@ -148,32 +172,64 @@ class Gameboard{
             //else return this boolean as true.
     }
     public static void main(String args[]){
-        double AI_check;
+        Gameboard thisGameBoard = new Gameboard();
+        double AI_check = 0;
+        double play_check = 0;
         Scanner AI_Scanner = new Scanner(System.in);
+        Scanner option = new Scanner(System.in);
+        while(play_check == 0) {
+            System.out.println("Please choose an option:\n1. Play\n2. Instructions\n3. Quit");
+            String option1 = option.nextLine();
+            if (option1.equals("1")) {
+                System.out.println("You have chosen to play...");
+                play_check += 1;
+            } else if (option1.equals("2")) {
+                thisGameBoard.instructions();
+            } else if (option1.equals("3")) {
+                System.exit(1);
+            } else {
+                System.out.println("Please enter a valid input");
+            }
+        }
         System.out.println("Do you wish to play against a bot?\n1. Yes\n2. No");
         String AI_Answer = AI_Scanner.nextLine();
-        if(AI_Answer == "1"){
+        if(AI_Answer.equals("1")){
             AI_check = 1;
-            //this will check if the user of the program wants to play against a bot
+            //this will check if the user of the program wants to play against a bot.
             // 1 = yes
-        }else{
+            System.out.println("You will be playing against a pre-written script");
+        }else if(AI_Answer.equals("2")){
+            System.out.println("Please enter your name, player 1 (O)? ");
+            String localname1 = AI_Scanner.nextLine();
+            thisGameBoard.readyplayerone(localname1);
+
+            System.out.println("Please enter your name, player 2 (X)? ");
+            String localname2 = AI_Scanner.nextLine();
+            thisGameBoard.readyplayertwo(localname2);
+
             AI_check = 0;
-            // 2 = no
+            // 0 = no
+        }else{
+            System.out.println("Please enter a valid input");
         }
-        Gameboard thisGameBoard = new Gameboard();
+        //Gameboard thisGameBoard = new Gameboard();
         thisGameBoard.displayBoard();
         //makes a new object called thisGameBoard which will be used to jump to different methods.
         //then the board is displayed at the start of the game.
         int counter = 1;
         //makes variable called counter equal to one.
 
-        while(thisGameBoard.gameActive() && counter < 10){
+        while(thisGameBoard.ongoing() && counter < 10){
             //while the game is active and the game hasn't had 10 turns execute the next piece section.
-         if((counter % 2 == 0)||(AI_check == 1))
-            thisGameBoard.askPlayer('O');
-            //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
-         else
-             thisGameBoard.askPlayer('X');
+         if((counter % 2 == 0)&&(AI_check == 0)) {
+             thisGameBoard.keeptrackinitial(counter);
+             thisGameBoard.askPlayer('O');
+             //this will execute when the counter is equally dividable by 2. So when it is player 0's turn.
+         }else if(AI_check == 1)
+             thisGameBoard.AI_run('X', thisGameBoard);
+            //this will jump to the AI code for the AI to select a position.
+         else if(AI_check == 0)
+            thisGameBoard.askPlayer('X');
             //otherwise this will execute when it is player X's turn.
          counter++;
 
@@ -182,7 +238,7 @@ class Gameboard{
             thisGameBoard.displayBoard();
             //the above line will be used to jump to the displayBoard method in the code.
             thisGameBoard.checkwin();
-            //the above line will be used to jump to the checkwin method in the code.
+            //the above line will be used to jump to the checking method in the code.
 
             if((counter == 10)&&(thisGameBoard.scored())){
                 System.out.print("It's a draw\n");
@@ -191,5 +247,43 @@ class Gameboard{
             }
         }
     }
+    public void AI_run(char Bot, Gameboard currentGameBoard){
+        Scanner keyboard = new Scanner(System.in);
+        Gameboard jump_from_AI = new Gameboard();
+        Random VarRand = new Random();
+        int row, col;
+        do {
+            row = VarRand.nextInt(3)+1;
+            //3 is the maximum and the 1 is the minimum
 
+            col = VarRand.nextInt(3)+1;
+            //3 is the maximum and the 1 is the minimum
+        }while (notValid(row,col));
+
+        MakeMove(Bot,row-1,col-1);
+        //currentGameBoard.displayBoard();
+        currentGameBoard.checkwin();
+        currentGameBoard.askPlayer('O');
+
+        System.out.println("\n");
+        //this will be used as a line break in the code.
+        currentGameBoard.checkwin();
+        //the above line will be used to jump to the checkwin method in the code.
+    }
+    public void instructions(){
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("TicTacToe is a very simple game");
+        System.out.println("Simply pick whether you are playing a\nnought or a cross, then choose your position on the map.\nThe first person to get three in a row either\nthrough columns, rows or diagonally");
+        String responce_00 = input.nextLine();
+    }
+    public void keeptrackinitial(double tokeep){
+        keeptrack = tokeep;
+    }
+    public void readyplayerone(String name1){
+        player1name = name1;
+    }
+    public void readyplayertwo(String name2){
+        player2name = name2;
+    }
 }
